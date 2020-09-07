@@ -1,7 +1,7 @@
-setwd("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습")
+setwd("C:/R/Social Science Data Analysis")
 install.packages("Hmisc")
 library(Hmisc)
-test <- spss.get("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-1 중2 패널 1차년도 데이터(SPSS).sav",
+test <- spss.get("C:/R/Social Science Data Analysis/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-1 중2 패널 1차년도 데이터(SPSS).sav",
                  use.value.labels=FALSE)
 #names(test)
 select_variables <- c(1,4,9,10,19,101,102,103,328:337,339:348,372,375,377,379,
@@ -15,7 +15,7 @@ install.packages("sjmisc")
 install.packages("sjlabelled")
 library(sjmisc)
 library(sjlabelled)
-test.labels <- spss.get("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-1 중2 패널 1차년도 데이터(SPSS).sav",
+test.labels <- spss.get("C:/R/Social Science Data Analysis/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-1 중2 패널 1차년도 데이터(SPSS).sav",
                         use.value.labels=TRUE)
 test.labels1 <- test.labels[select_variables]
 spssdata1 <- test.labels1[which(as.numeric(test.labels1$scharew1) < 26),]
@@ -90,7 +90,7 @@ save(spssdata, file="spssdata.RData")
 save.image(file="myspssdata.RData")
 #####################
 # 데이터 병합하기 
-second <- spss.get("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-2 중2 패널 2차년도 데이터(SPSS).sav",
+second <- spss.get("C:/R/Social Science Data Analysis/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-2 중2 패널 2차년도 데이터(SPSS).sav",
                  use.value.labels=FALSE)
 mergedata <- merge(spssdata, second, by="id")
 
