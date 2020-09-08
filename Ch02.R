@@ -1,7 +1,8 @@
+# ì‘ì—…ê³µê°„ ì„¤ì • ë° ë¼ì´ë¸ŒëŸ¬ë¦¬ ë¡œë“œ
 setwd("C:/R/Social Science Data Analysis")
 install.packages("Hmisc")
 library(Hmisc)
-test <- spss.get("C:/R/Social Science Data Analysis/[Áß2ÆĞ³Î] 1Â÷³âµµ_6Â÷³âµµ µ¥ÀÌÅÍ(SPSS)/04-1 Áß2 ÆĞ³Î 1Â÷³âµµ µ¥ÀÌÅÍ(SPSS).sav",
+test <- spss.get("C:/R/Social Science Data Analysis/[ì¤‘2íŒ¨ë„] 1ì°¨ë…„ë„_6ì°¨ë…„ë„ ë°ì´í„°(SPSS)/04-1 ì¤‘2 íŒ¨ë„ 1ì°¨ë…„ë„ ë°ì´í„°(SPSS).sav",
                  use.value.labels=FALSE)
 #names(test)
 select_variables <- c(1,4,9,10,19,101,102,103,328:337,339:348,372,375,377,379,
@@ -15,7 +16,7 @@ install.packages("sjmisc")
 install.packages("sjlabelled")
 library(sjmisc)
 library(sjlabelled)
-test.labels <- spss.get("C:/R/Social Science Data Analysis/[Áß2ÆĞ³Î] 1Â÷³âµµ_6Â÷³âµµ µ¥ÀÌÅÍ(SPSS)/04-1 Áß2 ÆĞ³Î 1Â÷³âµµ µ¥ÀÌÅÍ(SPSS).sav",
+test.labels <- spss.get("C:/R/Social Science Data Analysis/[ì¤‘2íŒ¨ë„] 1ì°¨ë…„ë„_6ì°¨ë…„ë„ ë°ì´í„°(SPSS)/04-1 ì¤‘2 íŒ¨ë„ 1ì°¨ë…„ë„ ë°ì´í„°(SPSS).sav",
                         use.value.labels=TRUE)
 test.labels1 <- test.labels[select_variables]
 spssdata1 <- test.labels1[which(as.numeric(test.labels1$scharew1) < 26),]
@@ -23,14 +24,14 @@ labels.spss.values <- get_labels(spssdata1)
 spssdata1 <- set_labels(spssdata, labels=labels.spss.values, force.values=FALSE, force.labels=TRUE)
 ##############################################################################################
 
-# º¯¼ö»ı¼º
+# ë³€ìˆ˜ ìƒì„±
 attach(spssdata)
 spssdata$attachment = q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1
 #spssdata <- transform(spssdata, attachment=q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1)
 spssdata$grade = q18a1w1+q18a2w1+q18a3w1
 #detach(spssdata)
 
-# ÇĞ±³¼ºÀû º¯¼ö¸¦ 3Áı´ÜÀ¸·Î ºĞ·ù
+# í•™êµì„±ì  ë³€ìˆ˜ë¥¼ 3ì§‘ë‹¨ìœ¼ë¡œ ë¶„ë¥˜
 install.packages("epiDisplay")
 library(epiDisplay)
 tab1(spssdata$grade, cum.percent = TRUE)
@@ -41,14 +42,14 @@ spssdata$grp.grade[grade >= 11 & grade <= max(grade)] <- 3
 #detach(spssdata)
 tab1(spssdata$grp.grade, cum.percent = TRUE)
 
-# q50w1ÀÇ ¼Ó¼ºÀ» ºÎÁ¤/Áß¸³/±àÁ¤À¸·Î
+# q50w1ì˜ ì†ì„±ì„ ë¶€ì •/ì¤‘ë¦½/ê¸ì •ìœ¼ë¡œ
 attach(spssdata)
-spssdata$satisfaction[q50w1==1|q50w1==2] <- 1 #¸¸Á·ÇÏÁö ¸øÇÏ´Â Æí
-spssdata$satisfaction[q50w1==3] <- 2          #º¸Åë
-spssdata$satisfaction[q50w1==4|q50w1==5] <- 3 #¸¸Á·ÇÏ´Â Æí
+spssdata$satisfaction[q50w1==1|q50w1==2] <- 1 #ë§Œì¡±í•˜ì§€ ëª»í•˜ëŠ” í¸
+spssdata$satisfaction[q50w1==3] <- 2          #ë³´í†µ
+spssdata$satisfaction[q50w1==4|q50w1==5] <- 3 #ë§Œì¡±í•˜ëŠ” í¸
 #detach(spssdata)
 
-# ¿ª¹æÇâ ÄÚµù
+# ì—­ë°©í–¥ ì½”ë”©
 attach(spssdata)
 spssdata$rq48a04w1[q48a04w1==1] <- 5
 spssdata$rq48a04w1[q48a04w1==2] <- 4
@@ -69,7 +70,7 @@ spssdata$rq48a06w1[q48a06w1==4] <- 2
 spssdata$rq48a06w1[q48a06w1==5] <- 1
 #detach(spssdata)
 
-# µÎ º¯¼öÀÇ º¯¼ö°ªÀ» ±³Â÷½ÃÄÑ ÇÏ³ªÀÇ Áı´Üº¯¼ö ¸¸µé±â
+# ë‘ ë³€ìˆ˜ì˜ ë³€ìˆ˜ê°’ì„ êµì°¨ì‹œì¼œ í•˜ë‚˜ì˜ ì§‘ë‹¨ë³€ìˆ˜ ë§Œë“¤ê¸°
 #attach(spssdata)
 spssdata$grp.sex.grade[sexw1==1 & grp.grade==1] <- 11
 spssdata$grp.sex.grade[sexw1==1 & grp.grade==2] <- 12
@@ -79,23 +80,23 @@ spssdata$grp.sex.grade[sexw1==2 & grp.grade==2] <- 22
 spssdata$grp.sex.grade[sexw1==2 & grp.grade==3] <- 23
 #detach(spssdata)
 
-# °áÃø°ªÀº NA·Î ÁöÁ¤
+# ê²°ì¸¡ê°’ì€ NAë¡œ ì§€ì •
 q33a07w1
 table(q33a07w1)
 table(q33a07w1, useNA="ifany")
 
-# µ¥ÀÌÅÍ ÀúÀåÇÏ±â
+# ë°ì´í„° ì €ì¥í•˜ê¸°
 save(spssdata, file="spssdata.RData")
-# workspace ÀúÀåÇÏ±â 
+# workspace ì €ì¥í•˜ê¸° 
 save.image(file="myspssdata.RData")
 #####################
-# µ¥ÀÌÅÍ º´ÇÕÇÏ±â 
-second <- spss.get("C:/R/Social Science Data Analysis/[Áß2ÆĞ³Î] 1Â÷³âµµ_6Â÷³âµµ µ¥ÀÌÅÍ(SPSS)/04-2 Áß2 ÆĞ³Î 2Â÷³âµµ µ¥ÀÌÅÍ(SPSS).sav",
+# ë°ì´í„° ë³‘í•©í•˜ê¸° 
+second <- spss.get("C:/R/Social Science Data Analysis/[ì¤‘2íŒ¨ë„] 1ì°¨ë…„ë„_6ì°¨ë…„ë„ ë°ì´í„°(SPSS)/04-2 ì¤‘2 íŒ¨ë„ 2ì°¨ë…„ë„ ë°ì´í„°(SPSS).sav",
                  use.value.labels=FALSE)
 mergedata <- merge(spssdata, second, by="id")
 
 #####################
-# µ¥ÀÌÅÍ ºĞÇÒÇÏ±â 
+# ë°ì´í„° ë¶„í• í•˜ê¸° 
 newdata <- subset(test, scharew1 >= 100 & scharew1 < 200, 
                   select=c("id", "sexw1", "scharew1", "areaw1", "q2w1", "q18a1w1", 
                            "q18a2w1", "q18a3w1"))
