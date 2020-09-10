@@ -100,4 +100,3 @@ mergedata <- merge(spssdata, second, by="id")
 newdata <- subset(test, scharew1 >= 100 & scharew1 < 200, 
                   select=c("id", "sexw1", "scharew1", "areaw1", "q2w1", "q18a1w1", 
                            "q18a2w1", "q18a3w1"))
-
