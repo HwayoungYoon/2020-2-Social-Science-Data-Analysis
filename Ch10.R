@@ -1,31 +1,31 @@
-setwd("D:/Work/Class/Survey Data Analysis/»çÈ¸°úÇĞ Åë°èºĞ¼®/½Ç½À")
-### µ¥ÀÌÅÍ ºÒ·¯µéÀÌ±â
+setwd("C:/R/Social Science Data Analysis")
+### ë°ì´í„° ë¶ˆëŸ¬ë“¤ì´ê¸°
 load("spssdata.RData")
 
-### µ¥ÀÌÅÍ ¸¸µé±â
+### ë°ì´í„° ë§Œë“¤ê¸°
 myvar <- c("q33a01w1", "q33a02w1", "q33a03w1", "q33a04w1", "q33a05w1",
            "q33a06w1", "q33a07w1", "q33a08w1", "q33a09w1", "q33a10w1"  )
 PCA1   <- spssdata[myvar]
 # names(spssdata)
 # PCA1 <- spssdata[,c(9:18)]
-PCA1_1 <- na.omit(PCA1) #°áÃø°ª Á¦°Å
+PCA1_1 <- na.omit(PCA1) #ê²°ì¸¡ê°’ ì œê±°
 
-#################### ¿äÀÎºĞ¼® #####################
-### FactorÀÇ ¼ö °áÁ¤ : ÁÖ¼ººĞºĞ¼®
+#################### ìš”ì¸ë¶„ì„ #####################
+### Factorì˜ ìˆ˜ ê²°ì • : ì£¼ì„±ë¶„ë¶„ì„
 fit1  <- princomp(PCA1_1, cor=TRUE)
 summary(fit1)
-plot(fit1, type="lines") #¿äÀÎºĞ¼®ÀÇ °íÀ¯°ª µµÇ¥
-loadings(fit1) #¿äÀÎµéÀÇ ÀûÀç·®
+plot(fit1, type="lines") #ìš”ì¸ë¶„ì„ì˜ ê³ ìœ ê°’ ë„í‘œ
+loadings(fit1) #ìš”ì¸ë“¤ì˜ ì ì¬ëŸ‰
 #sum(loadings(fit1)[,1]^2)
 
-### Factor¿¡ µû¸¥ º¯¼ö°áÁ¤
+### Factorì— ë”°ë¥¸ ë³€ìˆ˜ê²°ì •
 ######### OPTION 1 #########
 fit <- factanal(PCA1_1, 2, rotation="varimax") 
-#¿äÀÎ¼ö 2°³ÀÇ ¿äÀÎºĞ¼® °á°ú¸¦ varimax ¹æ¹ıÀ» »ç¿ëÇÏ¿© È¸Àü
-print(fit, digits=3, sort=TRUE) #ÀÔ·ÂµÈ ¹®Ç× ¼ø¼­´ë·Î Ãâ·Â: sort=TRUE ¿É¼Ç
+#ìš”ì¸ìˆ˜ 2ê°œì˜ ìš”ì¸ë¶„ì„ ê²°ê³¼ë¥¼ varimax ë°©ë²•ì„ ì‚¬ìš©í•˜ì—¬ íšŒì „
+print(fit, digits=3, sort=TRUE) #ì…ë ¥ëœ ë¬¸í•­ ìˆœì„œëŒ€ë¡œ ì¶œë ¥: sort=TRUE ì˜µì…˜
 #summary(fit)
 load <- fit$loadings[,1:2]
-plot(load) #µµÇ¥Ãâ·Â
+plot(load) #ë„í‘œì¶œë ¥
 text(load, labels=names(PCA1_1), cex=0.7)
 
 ######### OPTION 2 ########
@@ -34,29 +34,29 @@ library(psych)
 fit1_1 <- principal(PCA1_1, nfactors=2, rotate="varimax")
 fit1_1
 
-#################### ½Å·ÚµµºĞ¼® ####################
-# µ¥ÀÌÅÍ ÂÉ°³±â
+#################### ì‹ ë¢°ë„ë¶„ì„ ####################
+# ë°ì´í„° ìª¼ê°œê¸°
 myvar1a <- c("q33a01w1", "q33a02w1", "q33a03w1", "q33a04w1", "q33a05w1", "q33a06w1")
 myvar1b <- c("q33a07w1", "q33a08w1", "q33a09w1", "q33a10w1")
 # myvar1a <- myvar[1:6] ; myvar1b <- myvar[7:10]
 PCA1a <- spssdata[myvar1a]
 PCA1b <- spssdata[myvar1b]
 
-###½Å·ÚµµºĞ¼®
+###ì‹ ë¢°ë„ë¶„ì„
 library(psych)
 alpha(PCA1a, na.rm=TRUE)
 alpha(PCA1b, na.rm=TRUE)
 
 ###########################################################################
-# sjPlot ÆĞÅ°Áö¸¦ ÀÌ¿ëÇÑ ¿äÀÎºĞ¼®°ú ½Å·ÚµµºĞ¼®
+# sjPlot íŒ¨í‚¤ì§€ë¥¼ ì´ìš©í•œ ìš”ì¸ë¶„ì„ê³¼ ì‹ ë¢°ë„ë¶„ì„
 install.packages("sjPlot")
 library(sjPlot)
-tab_pca(PCA1, title="ºÎ¸ğ¿¡ ´ëÇÑ ¾ÖÂø", wrap.labels=20, show.cronb=TRUE,
-        show.var=TRUE, string.pov="ºĞ»êºñÀ²", string.cpov="´©Àû ºñÀ²")
+tab_pca(PCA1, title="ë¶€ëª¨ì— ëŒ€í•œ ì• ì°©", wrap.labels=20, show.cronb=TRUE,
+        show.var=TRUE, string.pov="ë¶„ì‚°ë¹„ìœ¨", string.cpov="ëˆ„ì  ë¹„ìœ¨")
 
 
 ##############################
-## »õ·Î¿î º¯¼ö »ı¼º
+## ìƒˆë¡œìš´ ë³€ìˆ˜ ìƒì„±
 attach(spssdata)
 spssdata$gattach <- q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1
 spssdata$outatt  <- q33a07w1+q33a08w1+q33a09w1+q33a10w1
@@ -65,15 +65,15 @@ detach(spssdata)
 
 
 ###########################################################################
-# sjPlot ÆĞÅ°Áö¸¦ ÀÌ¿ëÇÑ ¿äÀÎºĞ¼®°ú ½Å·ÚµµºĞ¼®
+# sjPlot íŒ¨í‚¤ì§€ë¥¼ ì´ìš©í•œ ìš”ì¸ë¶„ì„ê³¼ ì‹ ë¢°ë„ë¶„ì„
 library(Hmisc)
-test <- spss.get("D:/Work/Class/Survey Data Analysis/»çÈ¸°úÇĞ Åë°èºĞ¼®/½Ç½À/[Áß2ÆĞ³Î] 1Â÷³âµµ_6Â÷³âµµ µ¥ÀÌÅÍ(SPSS)/04-1 Áß2 ÆĞ³Î 1Â÷³âµµ µ¥ÀÌÅÍ(SPSS).sav",
+test <- spss.get("C:/R/Social Science Data Analysis/[ì¤‘2íŒ¨ë„] 1ì°¨ë…„ë„_6ì°¨ë…„ë„ ë°ì´í„°(SPSS)/04-1 ì¤‘2 íŒ¨ë„ 1ì°¨ë…„ë„ ë°ì´í„°(SPSS).sav",
                  use.value.labels=FALSE)
 newdata <- subset(test, scharew1 >= 100 & scharew1 < 200, 
                   select=c("q48a01w1","q48a02w1","q48a03w1","q48a04w1","q48a05w1","q48a06w1",
                            "q48a07w1","q48a08w1","q48a09w1","q48a10w1","q48a11w1","q48a12w1"))
 library(sjPlot)
-tab_pca(newdata, title="ÀÚ±â¸¸Á·µµ", wrap.labels=20, show.cronb=TRUE,
-        show.var=TRUE, string.pov="ºĞ»êºñÀ²", string.cpov="´©Àû ºñÀ²")
+tab_pca(newdata, title="ìê¸°ë§Œì¡±ë„", wrap.labels=20, show.cronb=TRUE,
+        show.var=TRUE, string.pov="ë¶„ì‚°ë¹„ìœ¨", string.cpov="ëˆ„ì  ë¹„ìœ¨")
 
 ############################################################################
