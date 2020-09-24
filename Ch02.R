@@ -24,9 +24,6 @@ test1 <- test[,select_variables]
 # 학교 위치에 대한 값이 100이상, 200미만인 데이터(서울)만 선택
 spssdata <- test1[which(test1$scharew1 >= 100 & test1$scharew1 <200), ]
 
-# 데이터 저장하기
-save(spssdata, file="spssdata.RData")
-
 ################################################################################
 
 # sjmisc, sjlabelled 패키지 install 및 load
@@ -137,6 +134,7 @@ table(q33a07w1, useNA="ifany")
 
 # 데이터 저장하기
 save(spssdata, file="spssdata.RData")
+save(spssdata1, file="spssdata1.RData")
 
 # workspace 저장하기(전부 저장하므로 저장할 파일 선택X)
 save.image(file="myspssdata.RData")
