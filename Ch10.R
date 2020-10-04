@@ -1,76 +1,163 @@
+# ÀÛ¾÷°ø°£ ¼³Á¤
 setwd("C:/R/Social Science Data Analysis")
-# ë°ì´í„° ë¶ˆëŸ¬ë“¤ì´ê¸°
+
+# µ¥ÀÌÅÍ ºÒ·¯µéÀÌ±â
 load("spssdata.RData")
 
-# ë°ì´í„° ë§Œë“¤ê¸°
+# º¯¼ö È®ÀÎ
+names(spssdata)
+
+################################################################################
+
+# 33¹ø ¹®Ç×ÀÇ µş¸° ¹®Ç×µé·Î »õ·Î¿î µ¥ÀÌÅÍ ¸¸µé±â
 myvar <- c("q33a01w1", "q33a02w1", "q33a03w1", "q33a04w1", "q33a05w1",
            "q33a06w1", "q33a07w1", "q33a08w1", "q33a09w1", "q33a10w1"  )
-PCA1   <- spssdata[myvar]
-## names(spssdata)
-## PCA1 <- spssdata[,c(9:18)]
-PCA1_1 <- na.omit(PCA1) #ê²°ì¸¡ê°’ ì œê±°
+PCA1 <- spssdata[myvar]
+#names(spssdata)
+#PCA1 <- spssdata[,c(9:18)]
 
-#################### ìš”ì¸ë¶„ì„ #####################
-# Factorì˜ ìˆ˜ ê²°ì • : ì£¼ì„±ë¶„ë¶„ì„
+# °áÃø°ª Á¦°Å : °áÃø°ªÀÌ ÇÏ³ª¶óµµ ÀÖ´Â Çà ÀüÃ¼ Á¦°Å
+PCA1_1 <- na.omit(PCA1)
+
+################################### ¿äÀÎºĞ¼® ###################################
+
+# FactorÀÇ ¼ö °áÁ¤ : ÁÖ¼ººĞºĞ¼®
+## cor=TRUE : correlation matrix »ç¿ë(FALSE : covariance matrix »ç¿ë)
 fit1  <- princomp(PCA1_1, cor=TRUE)
+# °¢ ¿äÀÎÀÇ Ç¥ÁØÆíÂ÷(Standard deviation), ºĞ»êÀÇ ºñÀ²(Proportion of Variance), ´©Àû ºñÀ²(Cumulative Proportion) Ãâ·Â
+# °íÀ¯°ª : Ç¥ÁØÆíÂ÷ÀÇ Á¦°ö, 1ÀÌ»óÀÌ¸é À¯ÀÇ¹Ì
 summary(fit1)
-plot(fit1, type="lines") # ìš”ì¸ë¶„ì„ì˜ ê³ ìœ ê°’ ë„í‘œ
-loadings(fit1) # ìš”ì¸ë“¤ì˜ ì ì¬ëŸ‰
-## sum(loadings(fit1)[,1]^2)
 
-# Factorì— ë”°ë¥¸ ë³€ìˆ˜ê²°ì •
+# ¿äÀÎºĞ¼®ÀÇ °íÀ¯°ª µµÇ¥
+plot(fit1, type="lines")
+
+# ¿äÀÎµéÀÇ ÀûÀç·® : ¿äÀÎ È¸Àü ÀÌÀüÀÇ ÀûÀç·®
+loadings(fit1)
+#sum(loadings(fit1)[,1]^2)
+
+# Factor¿¡ µû¸¥ º¯¼ö°áÁ¤
+
 ######### OPTION 1 #########
-fit <- factanal(PCA1_1, 2, rotation="varimax") 
-# ìš”ì¸ìˆ˜ 2ê°œì˜ ìš”ì¸ë¶„ì„ ê²°ê³¼ë¥¼ varimax ë°©ë²•ì„ ì‚¬ìš©í•˜ì—¬ íšŒì „
-print(fit, digits=3, sort=TRUE) # ì…ë ¥ëœ ë¬¸í•­ ìˆœì„œëŒ€ë¡œ ì¶œë ¥: sort=TRUE ì˜µì…˜
-## summary(fit)
+# 2°³ÀÇ ¿äÀÎ¿¡ ´ëÇÑ º¯¼ö °áÁ¤
+## rotation="" : È¸Àü ¹æ¹ı ÁöÁ¤
+fit <- factanal(PCA1_1, 2, rotation="varimax")
+
+# Uniquenesses : ¼±ÅÃµÈ ¿äÀÎÀ¸·Î ¼³¸íµÇÁö ¾Ê´Â °¢ ¹®Ç×¿¡¼­ÀÇ ºĞ»ê°ª
+# SS loadings : ¿äÀÎº° ÀûÀç·®ÀÇ Á¦°öÇÕ, È¸Àü ÈÄÀÇ °íÀ¯°ª
+# Chi squre statistic : ¿äÀÎÀÇ ¼ö¿¡ ´ëÇÑ °¡¼³ °ËÁ¤(Ç¥º»ÀÇ Å©±â°¡ Ä¿¾ßÇÔ)
+# -> ±Í¹«°¡¼³ : ¿äÀÎºĞ¼®À» ÅëÇØ ÃßÃâÇÑ ¿äÀÎÀÌ ¹®Ç× »çÀÌÀÇ °ü°è¸¦ Á¤È®È÷ ¼³¸íÇÑ´Ù
+## digits= : ¼Ò¼ıÁ¡ ÀÚ¸´¼ö ÁöÁ¤
+## sort=TRUE : ÀÔ·ÂµÈ ¹®Ç× ¼ø¼­´ë·Î Ãâ·Â
+print(fit, digits=3, sort=TRUE)
+
+#summary(fit)
 load <- fit$loadings[,1:2]
-plot(load) # ë„í‘œì¶œë ¥
+# µµÇ¥Ãâ·Â
+plot(load)
+# °¢ Á¡¿¡ ´ëÇÑ ¶óº§ ºÙÀÌ±â
 text(load, labels=names(PCA1_1), cex=0.7)
 
-######### OPTION 2 ########
+######### OPTION 2 #########
 install.packages("psych")
 library(psych)
+# ÁÖ¼ººĞ ºĞ¼®(¿äÀÎºĞ¼®)
+# h2 : ÃßÃâµÈ ¿äÀÎÀ¸·Î ¼³¸íµÇ´Â ÇØ´ç º¯¼öÀÇ ºĞ»ê
+# u2 : ¼³¸íµÇÁö ¾ÊÀº ºĞ»ê
 fit1_1 <- principal(PCA1_1, nfactors=2, rotate="varimax")
 fit1_1
 
-#################### ì‹ ë¢°ë„ë¶„ì„ ####################
-# ë°ì´í„° ìª¼ê°œê¸°
+################################## ½Å·ÚµµºĞ¼® ##################################
+
+# µ¥ÀÌÅÍ ÂÉ°³±â
 myvar1a <- c("q33a01w1", "q33a02w1", "q33a03w1", "q33a04w1", "q33a05w1", "q33a06w1")
 myvar1b <- c("q33a07w1", "q33a08w1", "q33a09w1", "q33a10w1")
-## myvar1a <- myvar[1:6] ; myvar1b <- myvar[7:10]
+#myvar1a <- myvar[1:6] ; myvar1b <- myvar[7:10]
 PCA1a <- spssdata[myvar1a]
 PCA1b <- spssdata[myvar1b]
 
-# ì‹ ë¢°ë„ë¶„ì„
+# ½Å·ÚµµºĞ¼®
+## na.rm=TRUE : °áÃø°ª Á¦°Å
+# raw_alpha : Cronbach's alpha °ª
+# std.alpha : Ç¥ÁØÈ­µÈ Cronbach's alpha °ª
 library(psych)
 alpha(PCA1a, na.rm=TRUE)
 alpha(PCA1b, na.rm=TRUE)
 
-###########################################################################
-# sjPlot íŒ¨í‚¤ì§€ë¥¼ ì´ìš©í•œ ìš”ì¸ë¶„ì„ê³¼ ì‹ ë¢°ë„ë¶„ì„
+################################################################################
+
+# sjPlot ÆĞÅ°Áö install ¹× load
 install.packages("sjPlot")
 library(sjPlot)
-tab_pca(PCA1, title="ë¶€ëª¨ì— ëŒ€í•œ ì• ì°©", wrap.labels=20, show.cronb=TRUE,
-        show.var=TRUE, string.pov="ë¶„ì‚°ë¹„ìœ¨", string.cpov="ëˆ„ì  ë¹„ìœ¨")
 
+# sjPlot ÆĞÅ°Áö¸¦ ÀÌ¿ëÇÑ ¿äÀÎºĞ¼®°ú ½Å·ÚµµºĞ¼®
+## wrap.labels= : º¯¼ö°ª ¼³¸í¿¡ ¾²ÀÏ ±ÛÀÚ ¼ö
+## show.cronb=TRUE : Cronbach's alpha °ª Ãâ·Â
+## show.var=TRUE : °¢ ¿äÀÎÀÇ ºĞ»ê ºñÀ²°ú ´©Àû ºĞ»ê ºñÀ² Ãâ·Â
+tab_pca(PCA1, title="ºÎ¸ğ¿¡ ´ëÇÑ ¾ÖÂø", wrap.labels=20, show.cronb=TRUE,
+        show.var=TRUE, string.pov="ºĞ»êºñÀ²", string.cpov="´©Àû ºĞ»ê ºñÀ²")
 
-##############################
-# ìƒˆë¡œìš´ ë³€ìˆ˜ ìƒì„±
+################################################################################
+
+# »õ·Î¿î º¯¼ö »ı¼º
 attach(spssdata)
 spssdata$gattach <- q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1
 spssdata$outatt  <- q33a07w1+q33a08w1+q33a09w1+q33a10w1
 detach(spssdata)
 
+################################################################################
 
-###########################################################################
-# sjPlot íŒ¨í‚¤ì§€ë¥¼ ì´ìš©í•œ ìš”ì¸ë¶„ì„ê³¼ ì‹ ë¢°ë„ë¶„ì„
+# sjPlot ÆĞÅ°Áö¸¦ ÀÌ¿ëÇÑ ¿äÀÎºĞ¼®°ú ½Å·ÚµµºĞ¼®
 library(Hmisc)
-test <- spss.get("C:/R/Social Science Data Analysis/[ì¤‘2íŒ¨ë„] 1ì°¨ë…„ë„_6ì°¨ë…„ë„ ë°ì´í„°(SPSS)/04-1 ì¤‘2 íŒ¨ë„ 1ì°¨ë…„ë„ ë°ì´í„°(SPSS).sav",
+test <- spss.get("C:/R/Social Science Data Analysis/[Áß2ÆĞ³Î] 1Â÷³âµµ_6Â÷³âµµ µ¥ÀÌÅÍ(SPSS)/04-1 Áß2 ÆĞ³Î 1Â÷³âµµ µ¥ÀÌÅÍ(SPSS).sav",
                  use.value.labels=FALSE)
 newdata <- subset(test, scharew1 >= 100 & scharew1 < 200, 
                   select=c("q48a01w1","q48a02w1","q48a03w1","q48a04w1","q48a05w1","q48a06w1",
                            "q48a07w1","q48a08w1","q48a09w1","q48a10w1","q48a11w1","q48a12w1"))
+
 library(sjPlot)
-tab_pca(newdata, title="ìê¸°ë§Œì¡±ë„", wrap.labels=20, show.cronb=TRUE,
-        show.var=TRUE, string.pov="ë¶„ì‚°ë¹„ìœ¨", string.cpov="ëˆ„ì  ë¹„ìœ¨")
+tab_pca(newdata, title="ÀÚ±â¸¸Á·µµ", wrap.labels=20, show.cronb=TRUE,
+        show.var=TRUE, string.pov="ºĞ»êºñÀ²", string.cpov="´©Àû ºñÀ²")
+
+# µ¥ÀÌÅÍ ÂÉ°³±â
+myvar1a_1 <- c("q48a01w1","q48a02w1","q48a03w1")
+myvar1b_1 <- c("q48a04w1","q48a05w1","q48a06w1")
+
+PCA1a_1 <- newdata[myvar1a_1]
+PCA1b_1 <- newdata[myvar1b_1]
+
+# ½Å·Úµµ ºĞ¼®
+library(psych)
+alpha(PCA1a_1, na.rm=TRUE)
+alpha(PCA1b_1, na.rm=TRUE)
+
+# ¿ª¹æÇâ ÄÚµù
+attach(newdata)
+newdata$rq48a04w1[q48a04w1==1] <- 5
+newdata$rq48a04w1[q48a04w1==2] <- 4
+newdata$rq48a04w1[q48a04w1==3] <- 3
+newdata$rq48a04w1[q48a04w1==4] <- 2
+newdata$rq48a04w1[q48a04w1==5] <- 1
+
+newdata$rq48a05w1[q48a05w1==1] <- 5
+newdata$rq48a05w1[q48a05w1==2] <- 4
+newdata$rq48a05w1[q48a05w1==3] <- 3
+newdata$rq48a05w1[q48a05w1==4] <- 2
+newdata$rq48a05w1[q48a05w1==5] <- 1
+
+newdata$rq48a06w1[q48a06w1==1] <- 5
+newdata$rq48a06w1[q48a06w1==2] <- 4
+newdata$rq48a06w1[q48a06w1==3] <- 3
+newdata$rq48a06w1[q48a06w1==4] <- 2
+newdata$rq48a06w1[q48a06w1==5] <- 1
+
+# »õ·Î¿î µ¥ÀÌÅÍ¼Â »ı¼º
+myvar <- c("q48a01w1", "q48a02w1", "q48a03w1" , "rq48a04w1", "rq48a05w1", "rq48a06w1")
+PCA1aa <- newdata[myvar]
+
+# ½Å·Úµµ ºĞ¼®
+alpha(PCA1aa, na.rm=TRUE)
+
+################################################################################
+
+# µ¥ÀÌÅÍ ÀúÀåÇÏ±â
+save(spssdata, file="spssdata.RData")
