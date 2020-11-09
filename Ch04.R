@@ -1,12 +1,14 @@
-setwd("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습")
-### 데이터 불러들이기
+# 작업공간 설정
+setwd("C:/R/Social Science Data Analysis")
+
+# 데이터 불러들이기
 load("spssdata.RData")
 attach(spssdata)
 
 table(q50w1)
-#####################################################################
-#######교차분석
-### table 함수 이용
+
+######교차표###############################################################
+# 재부호화
 spssdata$satisfaction[q50w1==1|q50w1==2] <- 1 #만족하지 못하는 편이다
 spssdata$satisfaction[q50w1==3] <-2           #보통
 spssdata$satisfaction[q50w1==4|q50w1==5] <- 3 #만족하는 편
@@ -39,15 +41,20 @@ margin.table(devi02.re, 2) #sexw1_1 변수의 주변합계
 round(prop.table(devi02.re)*100, 2)  #셀의 비율 산출
 round(prop.table(devi02.re, 2)*100, 2)   #열의 비율 산출
 
+######교차분석###############################################################
+
+### table 함수 이용
 ## 성별과 생활만족도의 독립성 검정
 # H0 : 성별에 따라 전반적인 생활만족도는 차이가 없다. (성별과 생활만족도는 독립니다.)
 # H1 : 성별에 따라 전반적인 생활만족도는 차이가 있다. (성별과 생활만족도는 독립이 아니다.)
+## correct=FALSE : 관측도수가 크기 때문에 연속성 보정 필요하지 않음
 chisq.test(devi02.re, correct=FALSE)
 # p-값이 1.428*10^(-5) <0.05 귀무가설 기각한다. 
 # 즉 유의수준 0.05에서 성별에 따른 생활만족도의 분포는 차이가 있다고 할 수 있다. 
 
 
 ### gmodels 패키지
+install.packages("gmodels")
 library(gmodels)
 CrossTable(spssdata$satisfaction_1, spssdata$sexw1_1, digits=2,
            prop.c=TRUE, prop.r=FALSE, prop.t=FALSE, prop.chisq=FALSE,
@@ -57,10 +64,10 @@ CrossTable(spssdata$satisfaction_1, spssdata$sexw1_1, digits=2,
 ### sjplot 패키지
 library(sjlabelled)
 spssdata$sexw1<- set_labels(spssdata$sexw1, 
-                                    labels=c("납자", "여자"))
+                                    labels=c("남자", "여자"))
 
 library(sjPlot)
-tab_xtab(spssdata$satisfaction, spssdata$sexw1.factor, show.col.prc=TRUE, 
+tab_xtab(spssdata$satisfaction, spssdata$sexw1, show.col.prc=TRUE, 
          var.labels=c("전반적 생활만족도", "성별"), encoding="UTF-8")
 tab_xtab(spssdata$satisfaction, spssdata$sexw1, show.col.prc=TRUE, 
          var.labels=c("전반적 생활만족도", "성별"), encoding="EUC-KR",
@@ -71,5 +78,7 @@ plot_xtab(spssdata$satisfaction, spssdata$sexw1, type="bar", y.offset=0.01,
           margin="col", coord.flip=TRUE, wrap.labels=7, geom.colors="Set2",
           show.summary=TRUE)
 
+################################################################################
 
-
+# 데이터 저장하기
+save(spssdata, file="spssdata.RData")
