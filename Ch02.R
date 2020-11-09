@@ -73,24 +73,15 @@ tab1(spssdata$grade, cum.percent = TRUE)
 # 새로운 변수 attachment, grade를 불러들이기 위해 다시 한 번 attach
 attach(spssdata)
 
-# grade(학교성적) 변수를 3집단으로 분류
-## 조건 grade >= min(grade) & grade <= 8 를 만족하면 grp.grade에 1값 줌
-spssdata$grp.grade[grade >= min(grade) & grade <= 8] <- 1
-spssdata$grp.grade[grade >= 9 & grade <= 10] <- 2
-spssdata$grp.grade[grade >= 11 & grade <= max(grade)] <- 3
-#detach(spssdata)
+# grp.grade 변수 생성
+spssdata$grp.grade[grade>=min(grade) & grade<=8] <- 1
+spssdata$grp.grade[grade>=9 & grade<=10] <- 2
+spssdata$grp.grade[grade>=11 & grade<=max(grade)] <- 3
 
 # grp.grade 변수에 대한 plot, table
 tab1(spssdata$grp.grade, cum.percent = TRUE)
 
 ################################################################################
-
-# q50w1의 속성을 부정/중립/긍정으로 분류
-attach(spssdata)
-spssdata$satisfaction[q50w1==1|q50w1==2] <- 1 # 만족하지 못하는 편
-spssdata$satisfaction[q50w1==3] <- 2          # 보통
-spssdata$satisfaction[q50w1==4|q50w1==5] <- 3 # 만족하는 편
-#detach(spssdata)
 
 # 역방향 코딩 : 응답의 방향성을 맞추기 위해
 attach(spssdata)
@@ -114,7 +105,7 @@ spssdata$rq48a06w1[q48a06w1==5] <- 1
 #detach(spssdata)
 
 # 두 변수의 변수값(sexw1, grp.grade)을 교차시켜 하나의 집단변수 만들기
-#attach(spssdata)
+attach(spssdata)
 spssdata$grp.sex.grade[sexw1==1 & grp.grade==1] <- 11
 spssdata$grp.sex.grade[sexw1==1 & grp.grade==2] <- 12
 spssdata$grp.sex.grade[sexw1==1 & grp.grade==3] <- 13
