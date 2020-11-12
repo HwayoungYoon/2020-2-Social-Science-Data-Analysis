@@ -1,21 +1,23 @@
-setwd("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습")
-### 데이터 불러들이기
+# 작업공간 설정
+setwd("C:/R/Social Science Data Analysis")
+
+# 데이터 불러들이기
 load("spssdata.RData")
 attach(spssdata)
 
 #####################################################################
 ### 독립표본 T검증의 분석 방법 :
 ## 연구가설 : 성별에 따라 부모에 대한 애착의 정도에 차이가 있을 것이다.
-##
-## 1. 부모에 대한 애착변수 만들기
-spssdata$attachment <- q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1
+
+## 1. 부모에 대한 애착변수 만들기(Ch02에서 이미 생성됨)
+#spssdata$attachment <- q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1
 #spssdata$attachment.ave <- (q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1)/6
 
 # 변수 설명 입력
 library(sjlabelled)
 spssdata$attachment <- set_label(spssdata$attachment, "부모에 대한 애착")
 
-#문자형 변수로 변환
+# 문자형 변수로 변환
 spssdata$sexw1a <- factor(spssdata$sexw1, levels=c(1,2), labels=c("남자","여자"))
 
 ## 2. 분산 동질성 검정
@@ -39,12 +41,9 @@ plotmeans(attachment ~ sexw1a, data=spssdata, xlab="성별", ylab="부모에 대
 
 #####################################################################
 ### 일표본 T검증의 분석 방법 :
-## 연구가설 :자기통제력의 평균은 다른 연구에서의 자기통제력의 평균인 
-##          18.5와 차이가 있을 것이다.
-##
-## 1. 분석에 사용되는 변수 만들기 : 
+## 연구가설 :자기통제력의 평균은 다른 연구에서의 평균인 18.5와 차이가 있을 것이다.
 
-###########################################################################
+## 1. 분석에 사용되는 변수 만들기 : 
 # sjPlot 패키지를 이용한 요인분석과 신뢰도분석
 self <- spssdata[c("q34a1w1","q34a2w1","q34a3w1","q34a4w1","q34a5w1","q34a6w1")]
 library(sjPlot)
@@ -53,7 +52,7 @@ tab_pca(self, title="자기통제력", wrap.labels=20, show.cronb=TRUE,
 library(psych)
 alpha(self, na.rm=TRUE)
 
-##  점수가 높을수록 자기통제력이 높은 방향으로 역코딩 
+## 점수가 높을수록 자기통제력이 높은 방향으로 역코딩 
 spssdata$rq34a1w1[q34a1w1==1] <- 5
 spssdata$rq34a1w1[q34a1w1==2] <- 4
 spssdata$rq34a1w1[q34a1w1==3] <- 3
@@ -100,6 +99,7 @@ detach(spssdata)
 library(sjlabelled)
 spssdata$self.control <- set_label(spssdata$self.control, "자기통제력")
 
+
 ## 3. 일표본 T 검증
 t.test(spssdata$self.control, mu=18.5)
 
@@ -107,8 +107,7 @@ t.test(spssdata$self.control, mu=18.5)
 #####################################################################
 ### 짝지어진 T검증의 분석 방법 :
 ## 연구가설 : 1차년도와 2차년도의 자아존중감은 차이가 있을 것이다.
-##
-###########################################################################
+
 # sjPlot 패키지를 이용한 요인분석과 신뢰도분석
 library(Hmisc)
 test <- spss.get("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습/[중2패널] 1차년도_6차년도 데이터(SPSS)/04-1 중2 패널 1차년도 데이터(SPSS).sav",
@@ -119,7 +118,7 @@ newdata <- subset(test, scharew1 >= 100 & scharew1 < 200,
 library(sjPlot)
 tab_pca(newdata, title="자기만족도", wrap.labels=20, show.cronb=TRUE,
         show.var=TRUE, string.pov="분산비율", string.cpov="누적 비율")
-############################################################################
+
 
 ## 1. 2차년도 데이터 불러오기 : 
 library(Hmisc)
@@ -127,6 +126,7 @@ second <- spss.get("D:/Work/Class/Survey Data Analysis/사회과학 통계분석
                    use.value.labels=FALSE)
 # 데이터 합치기
 mergedata <- merge(spssdata, second, by="id")
+
 
 ## 2. 역부호화된 변수 만들기
 attach(mergedata)
@@ -148,6 +148,7 @@ mergedata$rq48a06w1[q48a06w1==2] <- 4
 mergedata$rq48a06w1[q48a06w1==3] <- 3
 mergedata$rq48a06w1[q48a06w1==4] <- 2
 mergedata$rq48a06w1[q48a06w1==5] <- 1
+
 #2차년도 변수
 mergedata$rq48a04w2[q48a04w2==1] <- 5
 mergedata$rq48a04w2[q48a04w2==2] <- 4
@@ -168,14 +169,17 @@ mergedata$rq48a06w2[q48a06w2==4] <- 2
 mergedata$rq48a06w2[q48a06w2==5] <- 1
 detach(mergedata)
 
+
 ## 3. 변수만들기
 attach(mergedata)
 mergedata$self.esteemw1 <- q48a01w1+q48a02w1+q48a03w1+rq48a04w1+rq48a05w1+rq48a06w1
 mergedata$self.esteemw2 <- q48a01w2+q48a02w2+q48a03w2+rq48a04w2+rq48a05w2+rq48a06w2
 detach(mergedata)
 
+
 ## 4. 짝지어진 T 검증
 t.test(mergedata$self.esteemw1, mergedata$self.esteemw2, paired=TRUE)
+
 
 ## 5. 기술통계량 구하기
 #기술통계량을 구할 대상 변수를 선택하여 데이터로 만들기
@@ -184,6 +188,7 @@ describe_self.esteem <- mergedata[compare_self.esteem]
 #기술통계량
 library(psych)
 describe(describe_self.esteem)
+
 
 ## 6. 결측값 사례를 제외한 기술통계량을 출력하기위한 과정 
 describe_self.esteem$none_self.esteemw1 <- describe_self.esteem$self.esteemw1
@@ -197,4 +202,7 @@ describe_self.esteem$none_self.esteemw2[is.na(describe_self.esteem$self.esteemw1
 describe(describe_self.esteem)
 summary(describe_self.esteem)
 
+################################################################################
+
+# 데이터 저장하기
 save(spssdata, file="spssdata.RData")
