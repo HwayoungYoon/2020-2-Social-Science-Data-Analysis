@@ -1,37 +1,37 @@
-setwd("D:/Work/Class/Survey Data Analysis/사회과학 통계분석/실습")
-### 데이터 불러들이기
+# 작업공간 설정
+setwd("C:/R/Social Science Data Analysis")
+
+# 데이터 불러들이기
 load("spssdata.RData")
+attach(spssdata)
 
 ##########################################################################
 ## 일원분산분석 : 
- # 학교 성적에 따른 집단가의 자아존중감 수준은 다를 것이다.
-##########################################################################
-attach(spssdata)
+ # 학교 성적에 따른 집단간의 자아존중감 수준은 다를 것이다.
 ############################
 # 독립변수 
+# 학교성적 변수 grade 생성
 spssdata$grade <- q18a1w1 + q18a2w1 + q18a3w1
- # 학교성적 변수 grade 생성
 attach(spssdata)
 
+# 학교성적 변수 grade의 분포
 library(summarytools)
 freq(grade, plain.ascii=FALSE,style="rmarkdown")
- # 학교성적 변수 grade의 분포
 
+ # 학교성적 변수를 3집단으로 분류
 spssdata$grp.grade[grade >= min(grade) & grade <= 8] <- 1
 spssdata$grp.grade[grade >= 9 & grade <= 10] <- 2
 spssdata$grp.grade[grade >= 11 & grade <= max(grade)] <- 3
- # 학교성적 변수를 3집단으로 분류
 
+ # 변수설명
 library(sjlabelled)
 spssdata$grp.grade <- set_label(spssdata$grp.grade, "학교성적")
- # 변수설명
+ # 변수값 설명
 spssdata$grp.grade <- set_labels(spssdata$grp.grade, levels=c(1,2,3),
       labels=c("낮은 학교성적 집단", "중간 학교성적 집단", "높은 학교성적 집단"))
- # 변수값 설명
-
+ # 문자형 변수로 변환
 spssdata$grp.grade.factor <- factor(spssdata$grp.grade, levels=c(1,2,3),
       labels=c("낮은 학교성적 집단", "중간 학교성적 집단", "높은 학교성적 집단"))
- # 문자형 변수로 변환
 
 ############################
 # 종속변수 
@@ -56,10 +56,10 @@ spssdata$rq48a06w1[q48a06w1==4] <- 2
 spssdata$rq48a06w1[q48a06w1==5] <- 1
 
 attach(spssdata)
-spssdata$self.esteem <- q48a01w1+q48a02w1+q48a03w1+rq48a04w1+rq48a05w1+rq48a06w1
  # 자아존중감 변수 
-spssdata$self.esteem <- set_label(spssdata$self.esteem ,"자아존중감")
+spssdata$self.esteem <- q48a01w1+q48a02w1+q48a03w1+rq48a04w1+rq48a05w1+rq48a06w1
  # 변수설명
+spssdata$self.esteem <- set_label(spssdata$self.esteem ,"자아존중감")
 
 ############################
 # 일원분산분석 : 
@@ -106,20 +106,19 @@ duncan.test(ano1, "grp.grade.factor", alpha=0.05, console=TRUE)
 
 ##########################################################################
 ## 이원분산분석 : 
-# 성별에 따른 학교성적 집단 간에 부모에 대한 애착 수준은 다를 것이다.
-#  (교호작용 효과)
+# 성별에 따른 학교성적 집단 간에 부모에 대한 애착 수준은 다를 것이다. (교호작용 효과)
 # 성별 집단 간에 부모에 대한 애착 수준은 다를 것이다. (성별 주효과)
 # 학교성적에 따른 집단 간에 부모에 대한 애착 수준은 다를 것이다. (성적 주효과)
 ##########################################################################
 attach(spssdata)
+ # 부모에 대한 애착 변수
 spssdata$attachment <- q33a01w1+q33a02w1+q33a03w1+q33a04w1+q33a05w1+q33a06w1
 library(sjlabelled)
 spssdata$attachment <- set_label(spssdata$attachment, "부모에 대한 애착")
- # 부모에 대한 애착 변수
 
+  #범주형 변수로 변환
 spssdata$sexw1.factor <- factor(spssdata$sexw1, levels=c(1,2),
                                 labels=c("남자","여자"))
-  #범주형 변수로 변환
 
 ## 이원분산분석
 tw.ano1a <- aov(attachment ~ sexw1.factor + grp.grade.factor + 
@@ -144,12 +143,12 @@ duncan.test(tw.ano1a, "grp.grade.factor", alpha=0.05, console=TRUE)
 
 ###################################
 # 교호작용 효과: 집단별 평균 비교
-library(pshych)
+library(psych)
+ # describeBy함수 사용: 집단별 기초통계량 값 출력
 describeBy(spssdata$attachment, list(spssdata$sexw1,spssdata$grp.grade),
            mat=TRUE, digits=2)
- # describeBy함수 사용: 집단별 기초통계량 값 출력
-aggregate(attachment ~ sexw1+grp.grade, data=spssdata, FUN='mean')
  # FUN='mean'으로 평균 출력 지정
+aggregate(attachment ~ sexw1+grp.grade, data=spssdata, FUN='mean')
 tapply(spssdata$attachment, spssdata[,c("sexw1","grp.grade")], mean)
 tapply(spssdata$attachment, list(spssdata$sexw1, spssdata$grp.grade), mean)
 
@@ -163,15 +162,14 @@ spssdata$grp.sex.grade[sexw1==2 & grp.grade==2] <- 22
 spssdata$grp.sex.grade[sexw1==2 & grp.grade==3] <- 23
 detach(spssdata)
 
-
 library(sjlabelled)
-spssdata$grp.sex.grade <- set_label(spssdata$grp.sex.grade, "성별 학교성적")
   # 변수설명
+spssdata$grp.sex.grade <- set_label(spssdata$grp.sex.grade, "성별 학교성적")
+  # 변수값 설명
 spssdata$grp.sex.grade <- set_labels(spssdata$grp.sex.grade,
       labels=c("남자/낮은 학교성적 집단", "남자/중간 학교성적 집단", 
                "남자/높은 학교성적 집단", "여자/낮은 학교성적 집단", 
                "여자/중간 학교성적 집단", "여자/높은 학교성적 집단"))
-  # 변수값 설명
 
 ## 집단에 따른 기술통계량 
 # 집단별 기술통계량 표
@@ -179,11 +177,11 @@ library(sjstats)
 means_by_group(spssdata, dv=attachment, grp=grp.sex.grade, encoding="EUC-KR", out="viewer")
 
 # gplots 패키지를 이용한 기술통계량 비교 도표
+# 문자형 변수로 변환
 spssdata$grp.sex.grade.factor <- factor(spssdata$grp.sex.grade,
             labels=c("남자/낮은 학교성적 집단", "남자/중간 학교성적 집단", 
                      "남자/높은 학교성적 집단", "여자/낮은 학교성적 집단", 
                      "여자/중간 학교성적 집단", "여자/높은 학교성적 집단"))
-# 문자형 변수로 변환
 library(gplots)
 plotmeans(attachment~grp.sex.grade.factor, data=spssdata, xlab="성별 학교성적",
           ylab="부모애착", ci.label=TRUE, mean.label=TRUE, ylim=c(17,24.5),
@@ -197,4 +195,7 @@ interaction.plot(spssdata$grp.grade.factor, spssdata$sexw1.factor,
                  ylim=c(17,24), type="b", 
                  fun=function(x) mean(x,na.rm=TRUE))
 
+################################################################################
+
+# 데이터 저장하기
 save(spssdata, file="spssdata.RData")
