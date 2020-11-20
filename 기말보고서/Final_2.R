@@ -1,75 +1,75 @@
-# ÀÛ¾÷°ø°£ ¼³Á¤
+# ì‘ì—…ê³µê°„ ì„¤ì •
 setwd("C:/R/Social Science Data Analysis")
 
-# µ¥ÀÌÅÍ ºÒ·¯µéÀÌ±â
+# ë°ì´í„° ë¶ˆëŸ¬ë“¤ì´ê¸°
 load("mydata.RData")
 attach(mydata)
 
-# ¹İÀÀ # Ãæµ¿¼º impulse
+# ë°˜ì‘ # ì¶©ë™ì„± impulse
 
-# ÀÌºĞ # ¼ºº° SEX
+# ì´ë¶„ # ì„±ë³„ SEX
 
-# ¸í¸ñ # ÇĞ¾÷Áß´Ü ÀÌÀ¯ stop.reason
+# ëª…ëª© # í•™ì—…ì¤‘ë‹¨ ì´ìœ  stop.reason
 
-# ¼ø¼­ # ÇĞ±³ ¼ºÀû grade
-# ¼ø¼­ # ºñÇà°æÇè delinquent
-# ¼ø¼­ # °¡Á¤ °æÁ¦¼öÁØ economy
+# ìˆœì„œ # í•™êµ ì„±ì  grade
+# ìˆœì„œ # ë¹„í–‰ê²½í—˜ delinquent
+# ìˆœì„œ # ê°€ì • ê²½ì œìˆ˜ì¤€ economy
 
-## ±³»ç°ü°è teacher.rel
-## Ä£±¸°ü°è friendship
-## ÇĞ½À ºÎÀûÀÀ maladaptive
-## ÇĞ±³±Ô¹ü À§¹İ °æÇè violation
-## ÇĞ½ÀÁß´Ü °ü·Ã ½É¸®-Á¤¼­ stop.emotion
-## ÀÚ¾ÆÁ¤Ã¼°¨ self.identity
-## ¿ì¿ï depressed
-## °ÔÀÓÁßµ¶ game.addiction
-## ºÎ¸ğ¾ÖÂø p.attachment
-## ºÎ¸ğÀÇ ¹æÀÓ ¹× ÇĞ´ë p.abuse
-## Ä£±¸ÀÇ ºñÇà¼ºÇâ f.delinquent
-## ¹®Á¦Çàµ¿ °¡ÇØ°æÇè harm
+## êµì‚¬ê´€ê³„ teacher.rel
+## ì¹œêµ¬ê´€ê³„ friendship
+## í•™ìŠµ ë¶€ì ì‘ maladaptive
+## í•™êµê·œë²” ìœ„ë°˜ ê²½í—˜ violation
+## í•™ìŠµì¤‘ë‹¨ ê´€ë ¨ ì‹¬ë¦¬-ì •ì„œ stop.emotion
+## ìì•„ì •ì²´ê° self.identity
+## ìš°ìš¸ depressed
+## ê²Œì„ì¤‘ë… game.addiction
+## ë¶€ëª¨ì• ì°© p.attachment
+## ë¶€ëª¨ì˜ ë°©ì„ ë° í•™ëŒ€ p.abuse
+## ì¹œêµ¬ì˜ ë¹„í–‰ì„±í–¥ f.delinquent
+## ë¬¸ì œí–‰ë™ ê°€í•´ê²½í—˜ harm
 
 ##########################################################################
 library(sjlabelled)
-mydata$impulse <- set_label(mydata$impulse, "Ãæµ¿¼º")
-mydata$SEX <- set_label(mydata$SEX, "¼ºº°")
-mydata$stop.reason <- set_label(mydata$stop.reason, "ÇĞ¾÷Áß´Ü ÀÌÀ¯")
-mydata$grade <- set_label(mydata$grade, "ÇĞ±³¼ºÀû")
-mydata$delinquent <- set_label(mydata$delinquent, "ºñÇà°æÇè")
-mydata$economy <- set_label(mydata$economy, "°¡Á¤ °æÁ¦¼öÁØ")
-mydata$teacher.rel <- set_label(mydata$teacher.rel, "±³»ç°ü°è")
-mydata$friendship <- set_label(mydata$friendship, "Ä£±¸°ü°è")
-mydata$maladaptive <- set_label(mydata$maladaptive, "ÇĞ½À ºÎÀûÀÀ")
-mydata$violation <- set_label(mydata$violation, "ÇĞ±³±Ô¹ü À§¹İ °æÇè")
-mydata$stop.emotion <- set_label(mydata$stop.emotion, "ÇĞ½ÀÁß´Ü °ü·Ã ½É¸®-Á¤¼­")
-mydata$self.identity <- set_label(mydata$self.identity, "ÀÚ¾ÆÁ¤Ã¼°¨")
-mydata$depressed <- set_label(mydata$depressed, "¿ì¿ï")
-mydata$game.addiction <- set_label(mydata$game.addiction, "°ÔÀÓÁßµ¶")
-mydata$p.attachment <- set_label(mydata$p.attachment, "ºÎ¸ğ¾ÖÂø")
-mydata$p.abuse <- set_label(mydata$p.abuse, "ºÎ¸ğÀÇ ¹æÀÓ ¹× ÇĞ´ë")
-mydata$f.delinquent <- set_label(mydata$f.delinquent, "Ä£±¸ÀÇ ºñÇà¼ºÇâ")
-mydata$harm <- set_label(mydata$harm, "¹®Á¦Çàµ¿ °¡ÇØ°æÇè")
+mydata$impulse <- set_label(mydata$impulse, "ì¶©ë™ì„±")
+mydata$SEX <- set_label(mydata$SEX, "ì„±ë³„")
+mydata$stop.reason <- set_label(mydata$stop.reason, "í•™ì—…ì¤‘ë‹¨ ì´ìœ ")
+mydata$grade <- set_label(mydata$grade, "í•™êµì„±ì ")
+mydata$delinquent <- set_label(mydata$delinquent, "ë¹„í–‰ê²½í—˜")
+mydata$economy <- set_label(mydata$economy, "ê°€ì • ê²½ì œìˆ˜ì¤€")
+mydata$teacher.rel <- set_label(mydata$teacher.rel, "êµì‚¬ê´€ê³„")
+mydata$friendship <- set_label(mydata$friendship, "ì¹œêµ¬ê´€ê³„")
+mydata$maladaptive <- set_label(mydata$maladaptive, "í•™ìŠµ ë¶€ì ì‘")
+mydata$violation <- set_label(mydata$violation, "í•™êµê·œë²” ìœ„ë°˜ ê²½í—˜")
+mydata$stop.emotion <- set_label(mydata$stop.emotion, "í•™ìŠµì¤‘ë‹¨ ê´€ë ¨ ì‹¬ë¦¬-ì •ì„œ")
+mydata$self.identity <- set_label(mydata$self.identity, "ìì•„ì •ì²´ê°")
+mydata$depressed <- set_label(mydata$depressed, "ìš°ìš¸")
+mydata$game.addiction <- set_label(mydata$game.addiction, "ê²Œì„ì¤‘ë…")
+mydata$p.attachment <- set_label(mydata$p.attachment, "ë¶€ëª¨ì• ì°©")
+mydata$p.abuse <- set_label(mydata$p.abuse, "ë¶€ëª¨ì˜ ë°©ì„ ë° í•™ëŒ€")
+mydata$f.delinquent <- set_label(mydata$f.delinquent, "ì¹œêµ¬ì˜ ë¹„í–‰ì„±í–¥")
+mydata$harm <- set_label(mydata$harm, "ë¬¸ì œí–‰ë™ ê°€í•´ê²½í—˜")
 
 ##########################################################################
-# ºóµµÇ¥
+# ë¹ˆë„í‘œ
 library(summarytools)
-## ¼ºº°
+## ì„±ë³„
 view(freq(SEX))
-## ÇĞ¾÷Áß´Ü ÀÌÀ¯
+## í•™ì—…ì¤‘ë‹¨ ì´ìœ 
 view(freq(grp.stop.reason))
-## ÇĞ±³ ¼ºÀû
+## í•™êµ ì„±ì 
 view(freq(grade))
-## ºñÇà°æÇè
+## ë¹„í–‰ê²½í—˜
 view(freq(delinquent))
-## °¡Á¤ °æÁ¦¼öÁØ
+## ê°€ì • ê²½ì œìˆ˜ì¤€
 view(freq(economy))
 
 ##########################################################################
 
-# ±³Â÷ºĞ¼®
-## ¼ºº°/ÇĞ¾÷Áß´Ü ÀÌÀ¯
+# êµì°¨ë¶„ì„
+## ì„±ë³„/í•™ì—…ì¤‘ë‹¨ ì´ìœ 
 library(sjPlot)
 tab_xtab(mydata$grp.stop.reason, mydata$SEX, show.col.prc=TRUE, 
-         var.labels=c("ÇĞ¾÷Áß´Ü ÀÌÀ¯", "¼ºº°"), encoding="UTF-8")
+         var.labels=c("í•™ì—…ì¤‘ë‹¨ ì´ìœ ", "ì„±ë³„"), encoding="UTF-8")
 
 set_theme(geom.label.size=4.5, axis.textsize=1.1, legend.pos="bottom")
 plot_xtab(mydata$grp.stop.reason, mydata$SEX, type="bar", y.offset=0.01,
@@ -78,8 +78,8 @@ plot_xtab(mydata$grp.stop.reason, mydata$SEX, type="bar", y.offset=0.01,
 
 ##########################################################################
 
-# »ó°üºĞ¼®
-## ¸ğµç ¼ø¼­Çü º¯¼ö, ¸ğµç ¿¬¼ÓÇü º¯¼ö
+# ìƒê´€ë¶„ì„
+## ëª¨ë“  ìˆœì„œí˜• ë³€ìˆ˜, ëª¨ë“  ì—°ì†í˜• ë³€ìˆ˜
 cor.var <- mydata[c("grade","delinquent","economy","teacher.rel",
                        "friendship","maladaptive","violation",
                        "stop.emotion","self.identity","depressed",
@@ -93,10 +93,5 @@ sjp.corr(cor.var, corr.method="spearman", wrap.labels=5, na.deletion="pairwise")
 
 ##########################################################################
 
-# Æí»ó°üºĞ¼®
-
-
-##########################################################################
-
-# µ¥ÀÌÅÍ ÀúÀåÇÏ±â
+# ë°ì´í„° ì €ì¥í•˜ê¸°
 save(mydata, file="mydata.RData")
