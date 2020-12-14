@@ -252,8 +252,31 @@ reg.final <- lm(impulse ~ friendship + violation + stop.emotion +
                  f.delinquent + harm, data = mydata.out2)
 tab_model(reg.final, show.se=TRUE, show.fstat=TRUE, show.std=TRUE, auto.label=TRUE)
 
-# 표준화 계수값
-tab_model(reg.mod4, show.se=TRUE, auto.label=TRUE)
+# 잔차분석
+# 더빈왓슨통계량 : 잔차의 독립성
+library(car)
+durbinWatsonTest(reg.final)
+
+id4 <- c(1:nrow(mydata.out2))
+resid4 <- rstandard(reg.final)
+par(mfrow=c(1,1))
+plot(id4, resid4, main="잔차의 독립성", ylab="표준화잔차",pch=21)
+
+# 잔차그림 : 오차의 정규성 및 이상점, 영향점
+pred4 <- predict(reg.final)
+plot(pred4, resid4, main="잔차 vs 적합값", pch=21, col="red", ylab="표준화잔차", 
+     xlab="적합값")
+abline(0,0)
+
+library(sjPlot)
+plot_residuals(reg.final)
+
+par(mfrow=c(2,3))
+for(i in 1:5) plot(reg.final, i)
+par(mfrow=c(1,1))
+
+library(ggfortify)
+autoplot(reg.final)
 
 ##########################################################################
 
